@@ -9,6 +9,11 @@ struct MatchController: RouteCollection {
         matches.group(":matchID") { match in
             match.delete(use: delete)
         }
+        let updMatches = routes.grouped("update")
+        updMatches.group(":matchID") { updmatch in
+            updmatch.update (use: update)
+        }
+
     }
 
     func index(req: Request) throws -> EventLoopFuture<[Match]> {
@@ -32,4 +37,26 @@ struct MatchController: RouteCollection {
             .flatMap { $0.delete(on: req.db) }
             .transform(to: .ok)
     }
+
+    func update(req : Request) throws -> EventLoopFuture<Match> {
+        guard let id = req.parameters.get("matchID", as: UUID.self) else {
+            throw Abort(.badRequest)
+        }
+        let input = try req.content.decode(Match.self)
+        return Match.find(id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { match in
+                match.teamName = input.teamName
+                match.adversaryTeamName = input.adversaryTeamName
+                match.date = input.date
+                match.isInHome = input.isInHome
+                match.matchAdress = input.matchAdress
+                match.comment = input.comment
+                match.team1Score = input.team1Score
+                match.team2Score = input.team2Score
+                return match.save(on: req.db).map { match }
+            }
+
+    }
+
 }
