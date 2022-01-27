@@ -9,11 +9,23 @@ struct MatchController: RouteCollection {
         matches.group(":matchID") { match in
             match.delete(use: delete)
         }
+        matches.group(":teamName") { match in
+            match.get(use: indexTeam)
+        }
         let updMatches = routes.grouped("update")
         updMatches.group(":matchID") { updmatch in
             updmatch.post(use: update)
         }
 
+
+    }
+
+    func indexTeam(req: Request) throws -> EventLoopFuture<[Match]> {
+        let teamName = req.parameters.get("teamName")!
+        return Match.query(on: req.db)
+            .sort(\.$date, .ascending)
+            .filter(\.$teamName, .equal, "\(teamName)")
+            .all()
     }
 
     func index(req: Request) throws -> EventLoopFuture<[Match]> {

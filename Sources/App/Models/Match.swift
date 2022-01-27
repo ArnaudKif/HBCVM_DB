@@ -1,5 +1,6 @@
 import Fluent
 import Vapor
+import Foundation
 
 final class Match: Model, Content {
     
@@ -13,6 +14,7 @@ final class Match: Model, Content {
 
     @Field(key: "adversaryTeamName")
     var adversaryTeamName: String
+
 
     @Field(key: "date")
     var date: String
