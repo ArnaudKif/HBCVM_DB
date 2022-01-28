@@ -24,7 +24,7 @@ struct MatchController: RouteCollection {
         let teamName = req.parameters.get("teamName")!
         return Match.query(on: req.db)
             .sort(\.$date, .ascending)
-            .filter(\.$teamName, .equal, "\(teamName)")
+            .filter(\.$teamName =~ "\(teamName)")
             .all()
     }
 
