@@ -16,7 +16,8 @@ struct MatchController: RouteCollection {
         updMatches.group(":matchID") { updmatch in
             updmatch.post(use: update)
         }
-
+        let countMatches = routes.grouped("count")
+        countMatches.get(use: count)
 
     }
 

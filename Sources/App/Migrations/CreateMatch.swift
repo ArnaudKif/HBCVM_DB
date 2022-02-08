@@ -10,8 +10,8 @@ struct CreateMatch: Migration {
             .field("isInHome", .bool, .required)
             .field("matchAdress", .string, .required)
             .field("comment", .string, .required)
-            .field("team1Score", .string)
-            .field("team2Score", .string)
+            .field("team1Score", .int)
+            .field("team2Score", .int)
             .create()
     }
 
