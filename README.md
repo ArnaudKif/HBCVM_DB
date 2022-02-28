@@ -24,8 +24,8 @@ L'application serveur HBVVM_DB : https://github.com/ArnaudKif/HBCVM_DB
 
 
 
-
-English traduction 
+----------------------
+English Version
 
 This project is the final project (P12) of the OpenClassRooms formation iOS Application Developer.
 
